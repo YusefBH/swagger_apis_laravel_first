@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore
+  version: 1.0.11
+tags:
+  - name: auth
+    description: evrything about auth
+      
+  - name: user
+    description: Operations about user
+      
+  - name: project
+    description: Operations about project
+      
+  - name: task
+    description: Operations about task
+    
+  - name: sub_task
+    description: Operations about sub_task
+    
+paths:
+  /signup:
+    post:
+      tags: 
+        - auth
+      summary: signup
+      description: register a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseLogin'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+  /login:
+    post:
+      tags: 
+        - auth
+      summary: login
+      description: login by bearer token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseLogin'          
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+components:
+  schemas:
+    Login:
+      required:
+        - user_name
+        - password
+      type: object
+      properties:
+        user_name: 
+          type: string
+          example: ali
+        password: 
+          type: string
+          example: 1234
+    ResponseLogin:
+      type: object
+      properties:
+        bearer_token:
+          type: string 
+          example: Brearer_1dsvnbahvuondsfvnjvdoahvish2315165asva1df6546v5fs1d6f6465v4d654f5d4v6f4vd6sv4
