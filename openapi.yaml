@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Swagger Petstore
+  title: Swagger inbo_1 laravel task
   version: 1.0.11
 tags:
   - name: auth
@@ -19,7 +19,7 @@ tags:
     description: Operations about sub_task
     
 paths:
-  /signup:
+  /register:
     post:
       tags: 
         - auth
@@ -29,19 +29,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Login'
+              $ref: '#/components/schemas/register'
         required: true
       responses:
         '200':
-          description: Successful login
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseLogin'          
+          description: Successful signup       
         '400':
           description: Invalid ID supplied
-        '404':
-          description: user not found
         '405':
           description: Validation exception
   /login:
@@ -58,23 +52,606 @@ paths:
         required: true
       responses:
         '200':
-          description: Successful login
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ResponseLogin'          
+          description: Successful login       
         '400':
           description: Invalid ID supplied
         '404':
           description: user not found
         '405':
           description: Validation exception
+  /logout:
+    post:
+      tags: 
+        - auth
+      summary: logout
+      responses:
+        '200':
+          description: Successful logout       
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+  /forget-password:
+    post:
+      tags: 
+        - user
+      summary: forget password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/forget-password-request'
+        required: true
+      responses:
+        '200':
+          description: Successful logout   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/password-response'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+  /reset-password:
+    post:
+      tags: 
+        - user
+      summary: reset password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reset-password-request'
+        required: true
+      responses:
+        '200':
+          description: Successful logout   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/password-response'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+
+  /email/verification-notification:
+    post:
+      tags: 
+        - auth
+      summary: notification verify email
+      responses:
+        '200':
+          description: Successful logout   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/notif_verify-response'    
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+
+  /verify-email/{id}/{hash}:
+    get:
+      tags: 
+        - auth
+      summary: verify email
+      parameters:
+        - name: id
+          in: path
+          description: ID of user that verify emails
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: hash
+          in: path
+          description: hash of user that verify emails
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful logout   
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+
+  /users:
+    post:
+      tags: 
+        - user
+      summary: all users
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+  /users/{user}:
+    put:
+      tags: 
+        - user
+      summary: update user
+      parameters:
+        - name: user
+          in: path
+          description: ID of user that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+    get:
+      tags: 
+        - user
+      summary: show user
+      parameters:
+        - name: user
+          in: path
+          description: ID of user that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+  /projects:
+    get:
+      tags: 
+        - project
+      summary: all project
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pagination-projects'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - project
+      summary: create a project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /projects/{project}:
+    get:
+      tags: 
+        - project
+      summary: show project
+      parameters:
+        - name: project
+          in: path
+          description: ID of project that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - project
+      summary: update project
+      parameters:
+        - name: project
+          in: path
+          description: ID of project that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+        required: true
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+    delete:
+      tags: 
+        - project
+      summary: delete project
+      parameters:
+        - name: project
+          in: path
+          description: ID of project that needs to be delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: user not found
+        '405':
+          description: Validation exception
+  /tasks:
+    get:
+      tags: 
+        - task
+      summary: all task
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pagination-tasks'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: task not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - task
+      summary: create a task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /tasks/{task}:
+    get:
+      tags: 
+        - task
+      summary: show task
+      parameters:
+        - name: task
+          in: path
+          description: ID of task that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find task   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: task not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - task
+      summary: update task
+      parameters:
+        - name: task
+          in: path
+          description: ID of task that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: task not found
+        '405':
+          description: Validation exception
+    delete:
+      tags: 
+        - task
+      summary: delete task
+      parameters:
+        - name: task
+          in: path
+          description: ID of task that needs to be delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: task not found
+        '405':
+          description: Validation exception
+  /sub_tasks:
+    get:
+      tags: 
+        - sub_task
+      summary: all sub_task
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pagination-subtasks'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: sub_task not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - sub_task
+      summary: create a sub_task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subtask'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subtask'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /sub_tasks/{sub_task}:
+    get:
+      tags: 
+        - sub_task
+      summary: show sub_task
+      parameters:
+        - name: sub_task
+          in: path
+          description: ID of sub_task that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find sub_task   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subtask'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: sub_task not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - sub_task
+      summary: update sub_task
+      parameters:
+        - name: sub_task
+          in: path
+          description: ID of sub_task that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subtask'
+        required: true
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subtask'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: sub_task not found
+        '405':
+          description: Validation exception
+    delete:
+      tags: 
+        - sub_task
+      summary: delete sub_task
+      parameters:
+        - name: sub_task
+          in: path
+          description: ID of sub_task that needs to be delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subtask'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: sub_task not found
+        '405':
+          description: Validation exception
+
 components:
   schemas:
-    Login:
+    register:
       required:
-        - user_name
-        - password
+      - user_name
+      - password
+      - email
       type: object
       properties:
         user_name: 
@@ -83,9 +660,269 @@ components:
         password: 
           type: string
           example: 1234
-    ResponseLogin:
+        email: 
+          type: string
+          example: yusefb1382@gmail.com
+    Login:
+      required:
+        - email
+        - password
       type: object
       properties:
-        bearer_token:
-          type: string 
-          example: Brearer_1dsvnbahvuondsfvnjvdoahvish2315165asva1df6546v5fs1d6f6465v4d654f5d4v6f4vd6sv4
+        email: 
+          type: string
+          example: yusefb1382@gmail.com
+        password: 
+          type: string
+          example: 1234
+    forget-password-request:
+      required:
+        - email
+      type: object
+      properties:
+        email: 
+          type: string
+          example: yusefb1382@gmail.com
+    password-response:
+      required:
+        - status
+      type: object
+      properties:
+        status: 
+          type: string
+          example: nemidonam bezar emtahan konam baad
+
+    notif_verify-response:
+      required:
+        - status
+      type: object
+      properties:
+        status: 
+          type: string
+          example: verification-link-sent
+
+    reset-password-request:
+      required:
+        - email
+        - token
+        - password
+      type: object
+      properties:
+        email: 
+          type: string
+          example: yusefb1382@gmail.com
+        token:
+          type: string
+          example: werfgvcnxbsgadnbghcxkdchjxksndchjkxsmnc
+        password:
+          type: string
+          example: 12344
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        username:
+          type: string
+          example: yusef
+        email:
+          type: string
+          example: yusefb1382@email.com
+        password:
+          type: string
+          example: '12345'
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: 'project 1'
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: 'task 1'
+        status:
+          type: string
+          example: 'TODO'
+        label_id:
+          type: string
+          example: 5
+        project_id:
+          type: string
+          example: 153
+    Subtask:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: 'sub task 1'
+        deadline:
+          type: string
+          example: '123658995221'
+        description:
+          type: string
+          example: 'sub task 1 make a function for login by token ....'
+        label_id:
+          type: string
+          example: 5
+        project_id:
+          type: string
+          example: 153
+        user_id:
+          type: string
+          example: 153
+    Pagination-projects:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          example: 10
+        per_page:
+          type: integer
+          format: int64
+          example: 10
+        current_page:
+          type: integer
+          format: int64
+          example: 10
+        last_page:
+          type: integer
+          format: int64
+          example: 10
+        first_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        last_page_url:
+          type: string
+          example: 'http://laravel.app?page=8'
+        next_page_url:
+          type: string
+          example: 'http://laravel.app?page=4'
+        prev_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        path:
+          type: string
+          example: 'http://laravel.app'
+        from:
+          type: integer
+          format: int64
+          example: 10
+        to:
+          type: integer
+          format: int64
+          example: 10
+        data:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Project'     
+    Pagination-tasks:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          example: 10
+        per_page:
+          type: integer
+          format: int64
+          example: 10
+        current_page:
+          type: integer
+          format: int64
+          example: 10
+        last_page:
+          type: integer
+          format: int64
+          example: 10
+        first_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        last_page_url:
+          type: string
+          example: 'http://laravel.app?page=8'
+        next_page_url:
+          type: string
+          example: 'http://laravel.app?page=4'
+        prev_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        path:
+          type: string
+          example: 'http://laravel.app'
+        from:
+          type: integer
+          format: int64
+          example: 10
+        to:
+          type: integer
+          format: int64
+          example: 10
+        data:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Task'   
+    Pagination-subtasks:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          example: 10
+        per_page:
+          type: integer
+          format: int64
+          example: 10
+        current_page:
+          type: integer
+          format: int64
+          example: 10
+        last_page:
+          type: integer
+          format: int64
+          example: 10
+        first_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        last_page_url:
+          type: string
+          example: 'http://laravel.app?page=8'
+        next_page_url:
+          type: string
+          example: 'http://laravel.app?page=4'
+        prev_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        path:
+          type: string
+          example: 'http://laravel.app'
+        from:
+          type: integer
+          format: int64
+          example: 10
+        to:
+          type: integer
+          format: int64
+          example: 10
+        data:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Subtask'
+  
