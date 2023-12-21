@@ -18,6 +18,21 @@ tags:
   - name: sub_task
     description: Operations about sub_task
     
+  - name: invitations
+    description: Operations about invitations
+
+  - name: notfications
+    description: Operations about notfications
+
+  - name: labels
+    description: Operations about labels
+
+  - name: files
+    description: Operations about files
+
+  - name: user_project
+    description: Operations about user_project
+
 paths:
   /register:
     post:
@@ -125,7 +140,6 @@ paths:
           description: user not found
         '405':
           description: Validation exception
-
   /email/verification-notification:
     post:
       tags: 
@@ -146,7 +160,6 @@ paths:
           description: user not found
         '405':
           description: Validation exception
-
   /verify-email/{id}/{hash}:
     get:
       tags: 
@@ -175,7 +188,6 @@ paths:
           description: user not found
         '405':
           description: Validation exception
-
   /users:
     post:
       tags: 
@@ -645,6 +657,498 @@ paths:
         '405':
           description: Validation exception
 
+  /invitations:
+    get:
+      tags: 
+        - invitations
+      summary: all invitations
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pagination-invitation'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: invitations not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - invitations
+      summary: create a invitations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invitation'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invitation'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /invitations/{invitation}:
+    get:
+      tags: 
+        - invitations
+      summary: show invitations
+      parameters:
+        - name: invitations
+          in: path
+          description: ID of invitations that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find invitations   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Invitation'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: invitations not found
+        '405':
+          description: Validation exception
+
+  /notfications:
+    get:
+      tags: 
+        - notfications
+      summary: all notfications
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: notfications not found
+        '405':
+          description: Validation exception
+
+  /files:
+    get:
+      tags: 
+        - files
+      summary: all file
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: file not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - files
+      summary: create a file
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewFile'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /files/{file}:
+    get:
+      tags: 
+        - files
+      summary: show file
+      parameters:
+        - name: file
+          in: path
+          description: ID of file that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find file   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: file not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - files
+      summary: update file
+      parameters:
+        - name: file
+          in: path
+          description: ID of file that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewFile'
+        required: true
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: file not found
+        '405':
+          description: Validation exception
+    delete:
+      tags: 
+        - files
+      summary: delete file
+      parameters:
+        - name: file
+          in: path
+          description: ID of file that needs to be delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: file not found
+        '405':
+          description: Validation exception
+
+  /labels:
+    get:
+      tags: 
+        - labels
+      summary: all labels
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lable'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: labels not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - labels
+      summary: create a labels
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lable'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lable'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /labels/{label}:
+    get:
+      tags: 
+        - labels
+      summary: show labels
+      parameters:
+        - name: labels
+          in: path
+          description: ID of labels that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find labels   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lable'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: labels not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - labels
+      summary: update labels
+      parameters:
+        - name: labels
+          in: path
+          description: ID of labels that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lable'
+        required: true
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lable'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: labels not found
+        '405':
+          description: Validation exception
+    delete:
+      tags: 
+        - labels
+      summary: delete labels
+      parameters:
+        - name: labels
+          in: path
+          description: ID of labels that needs to be delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lable'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: labels not found
+        '405':
+          description: Validation exception
+
+
+  /project_users:
+    get:
+      tags: 
+        - project_users
+      summary: all project_users
+      responses:
+        '200':
+          description: Successful   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User_Project'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project_users not found
+        '405':
+          description: Validation exception
+    post:
+      tags: 
+        - project_users
+      summary: add a user to project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User_Project_add'
+        required: true
+      responses:
+        '200':
+          description: Successful created   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User_Project'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+  /project_users/{user}:
+    get:
+      tags: 
+        - project_users
+      summary: show project_users
+      parameters:
+        - name: project_users
+          in: path
+          description: ID of project_users that needs to be show
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find project_users   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User_Project_add'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project_users not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - project_users
+      summary: update project_users
+      parameters:
+        - name: project_users
+          in: path
+          description: ID of project_users that needs to be updated
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User_Project_add'
+        required: true
+      responses:
+        '200':
+          description: Successful update   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User_Project'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project_users not found
+        '405':
+          description: Validation exception
+    delete:
+      tags: 
+        - project_users
+      summary: delete sub_task
+      parameters:
+        - name: project_users
+          in: path
+          description: ID of project_users that needs to be delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful find user   
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User_Project'         
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: project_users not found
+        '405':
+          description: Validation exception
+
+
+
 components:
   schemas:
     register:
@@ -756,9 +1260,6 @@ components:
         status:
           type: string
           example: 'TODO'
-        label_id:
-          type: string
-          example: 5
         project_id:
           type: string
           example: 153
@@ -778,9 +1279,6 @@ components:
         description:
           type: string
           example: 'sub task 1 make a function for login by token ....'
-        label_id:
-          type: string
-          example: 5
         project_id:
           type: string
           example: 153
@@ -925,4 +1423,163 @@ components:
           type: array
           items: 
             $ref: '#/components/schemas/Subtask'
-  
+    
+    Invitation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        email:
+          type: string
+          example: 'yusefb1382@email.com'
+        content:
+          type: string
+          example: 'please come my project'
+        project_id:
+          type: string
+          example: 153
+
+    Pagination-invitation:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int64
+          example: 10
+        per_page:
+          type: integer
+          format: int64
+          example: 10
+        current_page:
+          type: integer
+          format: int64
+          example: 10
+        last_page:
+          type: integer
+          format: int64
+          example: 10
+        first_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        last_page_url:
+          type: string
+          example: 'http://laravel.app?page=8'
+        next_page_url:
+          type: string
+          example: 'http://laravel.app?page=4'
+        prev_page_url:
+          type: string
+          example: 'http://laravel.app?page=1'
+        path:
+          type: string
+          example: 'http://laravel.app'
+        from:
+          type: integer
+          format: int64
+          example: 10
+        to:
+          type: integer
+          format: int64
+          example: 10
+        data:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Invitation'
+    
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        content:
+          type: string
+          example: 'salam khosh omadi'
+        user_id:
+          type: string
+          example: 153
+
+    Lable:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        title:
+          type: string
+          example: 'lable one'
+        color:
+          type: string
+          example: '#FFFFFF'
+        foregin_id:
+          type: string
+          example: 153
+        foregin_type:
+          type: string
+          example: project
+
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        path:
+          type: string
+          example: 'storage/files/tasks/1/file_1.file'
+        content:
+          type: string
+          example: 'UserController.php'
+        foregin_id:
+          type: string
+          example: 153
+        foregin_type:
+          type: string
+          example: project
+    NewFile:
+          type: string
+          example: file binary
+
+    User_Project:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        user_id:
+          type: integer
+          example: 5
+        user:
+          type: array
+          items: 
+            $ref: '#/components/schemas/User'
+        project_id:
+          type: integer
+          example: 157
+        project:
+          type: array
+          items: 
+            $ref: '#/components/schemas/Project'
+        rule:
+          type: string
+          example: 'Owner'
+
+
+    User_Project_add:
+      type: object
+      properties:
+        user_id:
+          type: integer
+          example: 5
+        project_id:
+          type: integer
+          example: 157
+        rule:
+          type: string
+          example: 'Owner'
